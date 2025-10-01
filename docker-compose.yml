@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  touchpoints-creator:
+    build: .
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=bassline-boogie
+      - DB_USER=bassline-boogie-user
+      - DB_PASSWORD=8Qd8*yZK&zIxS%!s
+      - NATS_URL=nats://nats:4222
+      - NATS_SUBJECT=touchpoints-created
+      - NATS_USER=admin
+      - NATS_PASSWORD=admin
+      - CUSTOMER_NAME=Example Tech Solutions
+    depends_on:
+      - mysql
+      - nats
+    networks:
+      - touchpoints-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=bassline-boogie
+      - MYSQL_USER=bassline-boogie-user
+      - MYSQL_PASSWORD=8Qd8*yZK&zIxS%!s
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database_schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    networks:
+      - touchpoints-network
+
+  nats:
+    image: nats:2.9-alpine
+    command: ["--user", "admin", "--pass", "admin", "--jetstream"]
+    ports:
+      - "4222:4222"
+    networks:
+      - touchpoints-network
+
+volumes:
+  mysql_data:
+
+networks:
+  touchpoints-network:
+    driver: bridge

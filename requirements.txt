@@ -1,0 +1,8 @@
+# Database connectivity
+mysql-connector-python==8.2.0
+
+# NATS messaging
+nats-py==2.3.0
+
+# Additional dependencies for async support
+asyncio-mqtt==0.16.1
