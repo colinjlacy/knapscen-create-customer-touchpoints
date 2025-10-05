@@ -57,7 +57,7 @@ cp env.example .env
 | `DB_NAME` | Database name | Yes | - |
 | `DB_USER` | Database username | Yes | - |
 | `DB_PASSWORD` | Database password | Yes | - |
-| `NATS_URL` | NATS server URL | Yes | - |
+| `NATS_SERVER` | NATS server URL | Yes | - |
 | `NATS_SUBJECT` | NATS subject for publishing events | No | touchpoints-created |
 | `NATS_USER` | NATS username for authentication | Yes | - |
 | `NATS_PASSWORD` | NATS password for authentication | Yes | - |
@@ -192,7 +192,7 @@ docker run --rm \
   -e DB_NAME=your-db-name \
   -e DB_USER=your-db-user \
   -e DB_PASSWORD=your-db-password \
-  -e NATS_URL=your-nats-url \
+  -e NATS_SERVER=your-nats-url \
   -e NATS_USER=your-nats-user \
   -e NATS_PASSWORD=your-nats-password \
   -e CUSTOMER_NAME="Your Customer Name" \

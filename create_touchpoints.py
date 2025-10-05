@@ -11,7 +11,7 @@ Environment Variables Required:
 - DB_NAME: Database name
 - DB_USER: Database username
 - DB_PASSWORD: Database password
-- NATS_URL: NATS server URL
+- NATS_SERVER: NATS server URL
 - NATS_SUBJECT: NATS subject for publishing events (default: touchpoints-created)
 - NATS_USER: NATS username for authentication
 - NATS_PASSWORD: NATS password for authentication
@@ -54,7 +54,7 @@ class TouchpointsCreator:
             'charset': 'utf8mb4',
             'collation': 'utf8mb4_unicode_ci'
         }
-        self.nats_url = os.getenv('NATS_URL')
+        self.nats_url = os.getenv('NATS_SERVER')
         self.nats_subject = os.getenv('NATS_SUBJECT', 'touchpoints-created')
         self.nats_user = os.getenv('NATS_USER')
         self.nats_password = os.getenv('NATS_PASSWORD')
@@ -67,7 +67,7 @@ class TouchpointsCreator:
         """Validate that all required environment variables are set."""
         required_vars = [
             'DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD', 
-            'NATS_URL', 'NATS_USER', 'NATS_PASSWORD', 'CUSTOMER_NAME'
+            'NATS_SERVER', 'NATS_USER', 'NATS_PASSWORD', 'CUSTOMER_NAME'
         ]
         
         missing_vars = [var for var in required_vars if not os.getenv(var)]

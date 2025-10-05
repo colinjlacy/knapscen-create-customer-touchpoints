@@ -20,7 +20,7 @@ async def run_example():
     os.environ['DB_NAME'] = 'bassline-boogie'
     os.environ['DB_USER'] = 'bassline-boogie-user'
     os.environ['DB_PASSWORD'] = '8Qd8*yZK&zIxS%!s'
-    os.environ['NATS_URL'] = 'nats://localhost:40953'
+    os.environ['NATS_SERVER'] = 'nats://localhost:40953'
     os.environ['NATS_SUBJECT'] = 'touchpoints-created'
     os.environ['NATS_USER'] = 'admin'
     os.environ['NATS_PASSWORD'] = 'admin'

@@ -9,7 +9,7 @@ services:
       - DB_NAME=bassline-boogie
       - DB_USER=bassline-boogie-user
       - DB_PASSWORD=8Qd8*yZK&zIxS%!s
-      - NATS_URL=nats://nats:4222
+      - NATS_SERVER=nats://nats:4222
       - NATS_SUBJECT=touchpoints-created
       - NATS_USER=admin
       - NATS_PASSWORD=admin
