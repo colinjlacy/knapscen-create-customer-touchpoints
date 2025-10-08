@@ -87,9 +87,9 @@ class TouchpointsCreator:
         """
         try:
             connection = mysql.connector.connect(**self.db_config)
-            cursor = connection.cursor()
+            cursor = connection.cursor(buffered=True)  # Use buffered cursor to prevent "Unread result found" error
             
-            query = "SELECT id, name, subscription_tier FROM corporate_customers WHERE name = %s"
+            query = "SELECT id, name, subscription_tier FROM corporate_customers WHERE name = %s LIMIT 1"
             cursor.execute(query, (customer_name,))
             result = cursor.fetchone()
             
@@ -121,7 +121,7 @@ class TouchpointsCreator:
         """
         try:
             connection = mysql.connector.connect(**self.db_config)
-            cursor = connection.cursor()
+            cursor = connection.cursor(buffered=True)  # Use buffered cursor for consistency
             
             # Generate UUID for the touchpoints record
             touchpoints_id = str(uuid.uuid4())
@@ -159,12 +159,13 @@ class TouchpointsCreator:
         """
         try:
             connection = mysql.connector.connect(**self.db_config)
-            cursor = connection.cursor(dictionary=True)
+            cursor = connection.cursor(dictionary=True, buffered=True)  # Use buffered cursor for consistency
             
             query = """
             SELECT id, name, subscription_tier, created_at, updated_at
             FROM corporate_customers 
             WHERE id = %s
+            LIMIT 1
             """
             
             cursor.execute(query, (customer_id,))
