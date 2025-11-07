@@ -207,30 +207,42 @@ class TouchpointsCreator:
                 password=self.nats_password
             )
             
-            # Prepare event payload
+            # Prepare CloudEvent-compliant payload
+            current_time = datetime.utcnow().isoformat() + "Z"
+            event_id = f"evt-touchpoints-{touchpoints_id[:8]}"
+            
             event_payload = {
-                "event_type": "touchpoints-created",
-                "timestamp": datetime.utcnow().isoformat() + "Z",
-                "touchpoints_id": touchpoints_id,
-                "customer": customer_details,
-                "touchpoints": {
-                    "welcome_outreach": None,
-                    "technical_onboarding": None,
-                    "follow_up_call": None,
-                    "feedback_session": None
-                },
-                "next_actions": [
-                    "Schedule welcome outreach",
-                    "Plan technical onboarding session",
-                    "Set up follow-up call",
-                    "Arrange feedback session"
-                ]
+                "specversion": "1.0",
+                "type": "disco.knapscen.touchpoints.created",
+                "source": "knapscen.disco",
+                "subject": touchpoints_id,
+                "id": event_id,
+                "time": current_time,
+                "datacontenttype": "application/json",
+                "data": {
+                    "event_type": "touchpoints-created",
+                    "timestamp": current_time,
+                    "touchpoints_id": touchpoints_id,
+                    "customer": customer_details,
+                    "touchpoints": {
+                        "welcome_outreach": None,
+                        "technical_onboarding": None,
+                        "follow_up_call": None,
+                        "feedback_session": None
+                    },
+                    "next_actions": [
+                        "Schedule welcome outreach",
+                        "Plan technical onboarding session",
+                        "Set up follow-up call",
+                        "Arrange feedback session"
+                    ]
+                }
             }
             
             # Publish event
             await nc.publish(
                 self.nats_subject,
-                json.dumps(event_payload, indent=2).encode('utf-8')
+                json.dumps(event_payload).encode()
             )
             
             logger.info(f"Published {self.nats_subject} event for touchpoints {touchpoints_id}")
