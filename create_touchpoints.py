@@ -23,7 +23,7 @@ import sys
 import json
 import uuid
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, Dict, Any
 
 import mysql.connector
@@ -208,14 +208,14 @@ class TouchpointsCreator:
             )
             
             # Prepare CloudEvent-compliant payload
-            current_time = datetime.utcnow().isoformat() + "Z"
-            event_id = f"evt-touchpoints-{touchpoints_id[:8]}"
+            current_time = datetime.now(timezone.utc).isoformat(),
+            event_id = str(uuid.uuid4())[:8]
             
             event_payload = {
                 "specversion": "1.0",
                 "type": "disco.knapscen.touchpoints.created",
                 "source": "knapscen.disco",
-                "subject": touchpoints_id,
+                "subject": f"touchpoints-{touchpoints_id[:8]}",
                 "id": event_id,
                 "time": current_time,
                 "datacontenttype": "application/json",
