@@ -208,7 +208,7 @@ class TouchpointsCreator:
             )
             
             # Prepare CloudEvent-compliant payload
-            current_time = datetime.now(timezone.utc).isoformat(),
+            current_time = datetime.now(timezone.utc).isoformat()
             event_id = str(uuid.uuid4())[:8]
             
             event_payload = {
